@@ -73,11 +73,13 @@ class AbstractNode:
         result = preprocess_string(unclean, filters=filters)
         return " ".join(result)
 
-    def _helper_get_opposite_vectors(self, vectors, num=50, distance=500):
+    def _helper_get_opposite_vectors(self, vectors):
+        num = len(vectors)
         num = max(num, 2)
-        words = self._helper_get_examples(vectors)
-        opp_words = self.word2vec.most_similar(words, topn=distance)[distance - num:]
-        print('opp words', opp_words)
+        same_words = self._helper_get_examples(vectors)
+        # opp_words = self.word2vec.most_similar(words, topn=distance)[distance - num:]
+        opp_words = self.word2vec.most_similar(negative=same_words, topn=num*100)
+        print(opp_words)
         return [self.get_vector(i[0]) for i in opp_words]
 
     def train(self):
@@ -117,18 +119,27 @@ class AbstractNode:
 
     def predict_desc(self, desc):
         predictions = []
-        for w in desc: predictions.append(self.predict(w))
-        return np.median(np.array(predictions))
+        desc = self._clean_text(desc)
+        for w in desc.split(' '):
+            predictions.append(self.predict_word(w))
+            # print(w, self.predict_word(w))
+        return np.percentile(np.array(predictions), 90)
 
+    def ping(self, vector, threshold=0.5):
+        p = self.predict(vector)
+        if p > threshold:
+            return self.name, p
 
 if __name__ == "__main__":
     from gensim.models import KeyedVectors
     model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True, limit=200000)
 
+    print("START")
     a = AbstractNode(model, 'happy')
     a.give_desc("delighted, pleased, or glad, as over a particular thing:", True)
-    #a.give_desc("feeling or showing sorrow; unhappy.", False)
-    print(a.predict_word('unhappy'))
-    print(a.predict_word('cat'))
-    print(a.predict_word('feeling'))
-    print(a.predict_word('pleased'))
+    a.give_desc("feeling or showing sorrow; unhappy.", False)
+    print(a.predict_desc('Life is like a roller coaster, live it, be happy, enjoy life. '))
+    words = ['sad', 'happy', 'cat', 'feeling']
+    for w in words:
+        print(w, a.predict_word(w))
+
