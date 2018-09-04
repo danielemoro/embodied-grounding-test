@@ -4,30 +4,33 @@ from abstract_node import AbstractNode
 
 
 class AbstractBrain:
-    nodes = {}
-    word2vec = None
 
     def __init__(self):
         self.word2vec = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True, limit=200000)
+        self.nodes = {}
 
     def add_node(self, name, pos_desc, neg_desc):
         new_node = AbstractNode(self.word2vec, name)
         if pos_desc: new_node.give_desc(pos_desc, True)
         if neg_desc: new_node.give_desc(neg_desc, False)
 
-        self.nodes[new_node.hash] = new_node
+        self.nodes[new_node.name] = new_node
 
-    def classify(self, names, vectors, abstraction=0, max_abstractions=10):
+    def modify_node(self, name, pos_desc, neg_desc):
+        node = self.nodes[name]
+        if pos_desc: node.give_desc(pos_desc, True)
+        if neg_desc: node.give_desc(neg_desc, False)
+
+    def classify(self, names, vectors, abstraction=0, max_abstractions=5):
         if abstraction > max_abstractions or len(vectors) < 1: return []
 
         results = []
-        print(names)
-        for k in self.nodes:
-            if self.nodes[k].name not in names:
-                results.append((abstraction, self.nodes[k].name, self.nodes[k].predict_vectors(vectors), self.nodes[k].name_vector))
+        for name in self.nodes:
+            if name not in names:
+                results.append((abstraction, name, self.nodes[name].predict_vectors(vectors), self.nodes[name].name_vector))
 
         results = sorted(results, key=lambda x: x[2], reverse=True)
-        print([i[:3] for i in results])
+        # print([i[:3] for i in results])
         best_results = [i for i in results if 0.7 < i[2]][:1]
         best_results += self.classify([i[1] for i in best_results], [i[3] for i in best_results], abstraction=abstraction+1)
         return [i[:3] for i in best_results]

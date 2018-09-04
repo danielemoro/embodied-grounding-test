@@ -12,7 +12,6 @@ class AbstractNode:
         self.word2vec = word2vec
         self.logreg = linear_model.LogisticRegression(C=1e5)
         self.name_vector = self.get_vector(name)
-        self.hash = hash(str(self.name_vector))
         self.training_uptodate = True
         self.pos_words = []
         self.neg_words = []
@@ -35,6 +34,9 @@ class AbstractNode:
                 self.give_neg(ew)
 
     def give_desc(self, desc, is_positive):
+        if desc is None:
+            return
+
         desc = self._clean_text(desc)
         if is_positive:
             for w in desc.split(" "): self.give_word(w, True)

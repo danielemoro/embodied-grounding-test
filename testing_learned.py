@@ -8,4 +8,7 @@ import os.path
 b = AbstractBrain()
 b, to_learn = pickle.load(open('bob3.p', "rb"))
 
-print(b.classify_from_desc("plane"))
+print(b.classify_from_desc("rain"))
+print(b.classify_from_desc("person"))
+print(b.classify_from_desc("music"))
+print(b.classify_from_desc("rain"))
