@@ -1,23 +1,22 @@
-from blaze.expr.datetime import is_month_end
-from gensim.parsing.preprocessing import remove_stopwords
 from gensim.parsing.preprocessing import preprocess_string
 from gensim.parsing import preprocessing
-
-from sklearn import linear_model, datasets
+from sklearn import linear_model
 import numpy as np
+from statsmodels.tsa.tsatools import vec
+
 
 class AbstractNode:
-    name = None
-    word2vec = None
-    logreg = None
-    training_uptodate = True
-    pos_words = []
-    neg_words = []
 
     def __init__(self, word2vec, name):
         self.name = name
         self.word2vec = word2vec
         self.logreg = linear_model.LogisticRegression(C=1e5)
+        self.name_vector = self.get_vector(name)
+        self.hash = hash(str(self.name_vector))
+        self.training_uptodate = True
+        self.pos_words = []
+        self.neg_words = []
+
 
     def give_pos(self, ew):
         self.pos_words.append(ew)
@@ -34,8 +33,6 @@ class AbstractNode:
                 self.give_pos(ew)
             else:
                 self.give_neg(ew)
-        else:
-            print("  WARNING", word, "not in w2v model")
 
     def give_desc(self, desc, is_positive):
         desc = self._clean_text(desc)
@@ -63,6 +60,7 @@ class AbstractNode:
         if word in self.word2vec.vocab:
             return self.word2vec[word].reshape(1, -1)
         else:
+            print("WARNING", word, "not in w2v vocab")
             return None
 
     @staticmethod
@@ -79,7 +77,7 @@ class AbstractNode:
         same_words = self._helper_get_examples(vectors)
         # opp_words = self.word2vec.most_similar(words, topn=distance)[distance - num:]
         opp_words = self.word2vec.most_similar(negative=same_words, topn=num*100)
-        print(opp_words)
+        # print(opp_words)
         return [self.get_vector(i[0]) for i in opp_words]
 
     def train(self):
@@ -113,6 +111,12 @@ class AbstractNode:
         else:
             return self.logreg.predict_proba(ew.reshape(1, -1))[0][1]
 
+    def predict_vectors(self, vectors):
+        predictions = []
+        for v in vectors:
+            predictions.append(self.predict(v))
+        return np.percentile(np.array(predictions), 75)
+
     def predict_word(self, word):
         ew = self.get_vector(word)
         return self.predict(ew)
@@ -125,15 +129,9 @@ class AbstractNode:
             # print(w, self.predict_word(w))
         return np.percentile(np.array(predictions), 90)
 
-    def ping(self, vector, threshold=0.5):
-        p = self.predict(vector)
-        if p > threshold:
-            return self.name, p
-
 if __name__ == "__main__":
     from gensim.models import KeyedVectors
     model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True, limit=200000)
-
     print("START")
     a = AbstractNode(model, 'happy')
     a.give_desc("delighted, pleased, or glad, as over a particular thing:", True)
@@ -142,4 +140,5 @@ if __name__ == "__main__":
     words = ['sad', 'happy', 'cat', 'feeling']
     for w in words:
         print(w, a.predict_word(w))
+    print(a.ping(a.get_vector('happy')))
 
