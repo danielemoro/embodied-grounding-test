@@ -1,0 +1,4 @@
+*.p
+GoogleNews-vectors-negative300.bin.gz
+.idea
+__pycache__

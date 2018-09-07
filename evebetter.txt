@@ -1,0 +1,236 @@
+C:\Users\morod\Anaconda3\python.exe C:/SLIM_CODE/game.py
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\utils.py:1209: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+  warnings.warn("detected Windows; aliasing chunkize to chunkize_serial")
+Your baby is learning their first words and trying to make sense of the world. Aid them in understanding what certain objects mean
+Just so I remember you later, what is your name?
+cow
+%%%%%%%%%
+What are the attributes or examples of cow?
+animal fat milk white
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of animal?
+livestock
+WARNING generating my own negative words for training
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\matutils.py:737: FutureWarning: Conversion of the second argument of issubdtype from `int` to `np.signedinteger` is deprecated. In future, it will be treated as `np.int32 == np.dtype(int).type`.
+  if np.issubdtype(vec.dtype, np.int):
+WARNING generating my own negative words for training
+So does that mean that animal is cow?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of milk?
+yummy white food
+WARNING generating my own negative words for training
+So does that mean that milk is cow?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of livestock?
+value 
+Is animal an attribute or example of livestock
+y
+Is cow an attribute or example of livestock
+y
+WARNING generating my own negative words for training
+So does that mean that livestock is animal and animal is livestock and livestock is animal and animal is livestock and livestock is animal and animal is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of fat?
+yummy
+Is milk an attribute or example of fat
+y
+Is cow an attribute or example of fat
+y
+WARNING generating my own negative words for training
+So does that mean that fat is cow and cow is livestock and livestock is animal and animal is livestock and livestock is animal and animal is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of white?
+color
+Is milk an attribute or example of white
+y
+Is livestock an attribute or example of white
+n
+So does that mean that white is cow and cow is livestock and livestock is animal and animal is livestock and livestock is animal and animal is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of food?
+beef
+Is animal an attribute or example of food
+n
+Is white an attribute or example of food
+n
+So does that mean that food is milk and milk is fat and fat is cow and cow is livestock and livestock is animal and animal is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of value?
+money
+Is food an attribute or example of value
+y
+Is livestock an attribute or example of value
+y
+WARNING generating my own negative words for training
+So does that mean that value is livestock and livestock is value and value is livestock and livestock is value and value is livestock and livestock is value?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of yummy?
+happy
+Is milk an attribute or example of yummy
+y
+Is animal an attribute or example of yummy
+n
+So does that mean that yummy is milk and milk is fat and fat is cow and cow is livestock and livestock is value and value is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of happy?
+wealth
+Is food an attribute or example of happy
+n
+Is cow an attribute or example of happy
+n
+So does that mean that happy is yummy and yummy is milk and milk is fat and fat is cow and cow is livestock and livestock is value?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of earth?
+brown grass
+Is happy an attribute or example of earth
+n
+Is cow an attribute or example of earth
+n
+So does that mean that earth is yummy and yummy is milk and milk is fat and fat is cow and cow is livestock and livestock is value?
+n
+
+Oops ok. So earth is not yummy and yummy is not earth
+So does that mean that earth is white and white is cow and cow is livestock and livestock is value and value is livestock and livestock is value?
+n
+
+Oops ok. So earth is not white and white is not earth
+So does that mean that earth is ?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of wealth?
+happy
+Is milk an attribute or example of wealth
+n
+Is yummy an attribute or example of wealth
+n
+So does that mean that wealth is happy and happy is yummy and yummy is milk and milk is fat and fat is cow and cow is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of ?
+-tl
+['money', 'grass', 'beef', 'brown', 'color']
+
+Is white an attribute or example of 
+
+Is value an attribute or example of 
+
+WARNING  not in w2v vocab
+WARNING  not in w2v vocab
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of brown?
+color
+Is yummy an attribute or example of brown
+n
+Is fat an attribute or example of brown
+n
+WARNING generating my own negative words for training
+So does that mean that brown is earth?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of beef?
+food
+Is brown an attribute or example of beef
+y
+Is cow an attribute or example of beef
+y
+WARNING generating my own negative words for training
+So does that mean that beef is food and food is value and value is livestock and livestock is value and value is livestock and livestock is value?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of ?
+
+Is earth an attribute or example of 
+
+Is livestock an attribute or example of 
+
+WARNING  not in w2v vocab
+WARNING  not in w2v vocab
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of color?
+color
+Is white an attribute or example of color
+y
+Is animal an attribute or example of color
+n
+WARNING generating my own negative words for training
+So does that mean that color is white and white is color and color is white and white is color and color is white and white is color?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of money?
+dollar
+Is food an attribute or example of money
+n
+Is color an attribute or example of money
+n
+So does that mean that money is value and value is livestock and livestock is value and value is livestock and livestock is value and value is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of dollar?
+green
+Is happy an attribute or example of dollar
+n
+Is value an attribute or example of dollar
+n
+So does that mean that dollar is money and money is value and value is livestock and livestock is value and value is livestock and livestock is value?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of color?
+
+Is dollar an attribute or example of color
+
+Is wealth an attribute or example of color
+
+WARNING generating my own negative words for training
+So does that mean that color is white and white is cow and cow is beef and beef is food and food is value and value is livestock?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of grass?
+cow
+Is happy an attribute or example of grass
+n
+Is cow an attribute or example of grass
+y
+So does that mean that grass is earth and earth is ?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of green?
+grass
+Is color an attribute or example of green
+y
+Is livestock an attribute or example of green
+n
+So does that mean that green is dollar and dollar is color and color is white and white is cow and cow is beef and beef is food?
+y
+ ...fascinating
+
+Process finished with exit code 0

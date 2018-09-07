@@ -1,0 +1,78 @@
+C:\Users\morod\Anaconda3\python.exe C:/SLIM_CODE/game.py
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\utils.py:1209: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+  warnings.warn("detected Windows; aliasing chunkize to chunkize_serial")
+Your baby is learning their first words and trying to make sense of the world. Aid them in understanding what certain objects mean
+Just so I remember you later, what is your name?
+Brooke
+%%%%%%%%%
+What are the attributes of viola?
+wooden instrument
+What are NOT the attributes of viola?
+wind or percussion instrument
+ ...fascinating
+%%%%%%%%%
+What are the attributes of wooden?
+made from a tree
+What are NOT the attributes of wooden?
+other earth materials
+So does that mean that wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of tree?
+tall plant
+What are NOT the attributes of tree?
+weak short
+So does that mean that tree is wooden and wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of plant?
+life growing from soil
+What are NOT the attributes of plant?
+walking talking
+So does that mean that plant is tree and tree is wooden and wooden is viola and viola is plant and plant is tree and tree is wooden?
+no
+
+Oops ok. Please give me more info about plant
+What are the attributes of plant?
+growth
+What are NOT the attributes of plant?
+viola
+So does that mean that plant is tree and tree is wooden and wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of growth?
+cell division
+What are NOT the attributes of growth?
+cell death
+So does that mean that growth is plant and plant is tree and tree is wooden and wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of division?
+two parts
+What are NOT the attributes of division?
+stasis
+So does that mean that division is growth and growth is plant and plant is tree and tree is wooden and wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of parts?
+components that make something
+What are NOT the attributes of parts?
+one piece
+So does that mean that parts is division and division is growth and growth is plant and plant is tree and tree is wooden and wooden is viola?
+no
+
+Oops ok. Please give me more info about parts
+What are the attributes of parts?
+
+What are NOT the attributes of parts?
+division
+So does that mean that parts is division and division is growth and growth is plant and plant is tree and tree is wooden and wooden is viola?
+yes
+ ...fascinating
+%%%%%%%%%
+What are the attributes of pieces?

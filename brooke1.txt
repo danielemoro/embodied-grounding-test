@@ -1,0 +1,82 @@
+C:\Users\morod\Anaconda3\python.exe C:/SLIM_CODE/game.py
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\utils.py:1209: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+  warnings.warn("detected Windows; aliasing chunkize to chunkize_serial")
+Your baby is learning their first words and trying to make sense of the world. Aid them in understanding what certain objects mean
+%%%%%%%%%
+What are the attributes of cow?
+4 legs, animal, spotted
+What are NOT the attributes of cow?
+intelligence, cleanliness
+    added intelligence to stack
+    added cleanliness to stack
+    added legs to stack
+    added animal to stack
+    added spotted to stack
+%%%%%%%%%
+What are the attributes of spotted?
+ monochromatic patches on fur
+What are NOT the attributes of spotted?
+one color
+    added color to stack
+    added onochromatic to stack
+    added patches to stack
+    added fur to stack
+WARNING onochromatic not in w2v vocab
+So does that mean that spotted is cow and cow is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted?
+Yes
+
+Oops ok. Please give me more info about spotted
+What are the attributes of spotted?
+brown or black
+What are NOT the attributes of spotted?
+white
+    added white to stack
+    added brown to stack
+    added black to stack
+So does that mean that spotted is cow and cow is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted?
+yes
+%%%%%%%%%
+What are the attributes of black?
+absence of color
+What are NOT the attributes of black?
+all colors
+    added colors to stack
+    added absence to stack
+    added color to stack
+So does that mean that black is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted and spotted is cow?
+yes
+%%%%%%%%%
+What are the attributes of color?
+light, wave frequencies
+What are NOT the attributes of color?
+outside visual spectrum
+    added outside to stack
+    added visual to stack
+    added spectrum to stack
+    added light to stack
+    added wave to stack
+    added frequencies to stack
+So does that mean that color is black and black is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted?
+no
+
+Oops ok. Please give me more info about color
+What are the attributes of color?
+many shades
+What are NOT the attributes of color?
+black
+    added shades to stack
+So does that mean that color is black and black is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted?
+no
+
+Oops ok. Please give me more info about color
+What are the attributes of color?
+light
+What are NOT the attributes of color?
+no light
+    added light to stack
+    added light to stack
+So does that mean that color is black and black is spotted and spotted is cow and cow is spotted and spotted is cow and cow is spotted?
+no
+
+Oops ok. Please give me more info about color
+What are the attributes of color?

@@ -1,0 +1,159 @@
+C:\Users\morod\Anaconda3\python.exe C:/SLIM_CODE/game.py
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\utils.py:1209: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+  warnings.warn("detected Windows; aliasing chunkize to chunkize_serial")
+Your baby is learning their first words and trying to make sense of the world. Aid them in understanding what certain objects mean
+Just so I remember you later, what is your name?
+x
+%%%%%%%%%
+What are the attributes or examples of viola?
+wooden instrument musical
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of car?
+fast vehicle wheels
+WARNING generating my own negative words for training
+C:\Users\morod\Anaconda3\lib\site-packages\gensim\matutils.py:737: FutureWarning: Conversion of the second argument of issubdtype from `int` to `np.signedinteger` is deprecated. In future, it will be treated as `np.int32 == np.dtype(int).type`.
+  if np.issubdtype(vec.dtype, np.int):
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of earth?
+ground brown soil
+WARNING generating my own negative words for training
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of musical?
+human player music
+Is viola an attribute or example of musical
+y
+Is car an attribute or example of musical
+n
+WARNING generating my own negative words for training
+So does that mean that musical is viola and viola is musical and musical is viola and viola is musical and musical is viola and viola is musical?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of wooden?
+trees viola
+Is viola an attribute or example of wooden
+y
+Is car an attribute or example of wooden
+n
+So does that mean that wooden is viola and viola is musical and musical is viola and viola is musical and musical is viola and viola is musical?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of ground?
+brown earth below
+Is musical an attribute or example of ground
+n
+Is wooden an attribute or example of ground
+n
+So does that mean that ground is earth and earth is ground and ground is earth and earth is ground and ground is earth and earth is ground?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of soil?
+brown earth plants
+Is ground an attribute or example of soil
+y
+Is car an attribute or example of soil
+n
+So does that mean that soil is earth and earth is soil and soil is earth and earth is soil and soil is earth and earth is soil?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of plane?
+fast vehicle driver sky
+Is viola an attribute or example of plane
+n
+Is earth an attribute or example of plane
+n
+So does that mean that plane is ground and ground is soil and soil is earth and earth is soil and soil is earth and earth is soil?
+n
+
+Oops ok. So plane is not ground and ground is not plane
+So does that mean that plane is ?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of plants?
+green
+Is plane an attribute or example of plants
+n
+Is viola an attribute or example of plants
+n
+So does that mean that plants is soil and soil is earth and earth is soil and soil is earth and earth is soil and soil is earth?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of piano?
+instrument metal
+Is viola an attribute or example of piano
+n
+Is car an attribute or example of piano
+n
+So does that mean that piano is viola and viola is musical and musical is viola and viola is musical and musical is viola and viola is musical?
+n
+
+Oops ok. So piano is not viola and viola is not piano
+So does that mean that piano is musical and musical is viola and viola is musical and musical is viola and viola is musical and musical is viola?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of sheep?
+animal white
+Is soil an attribute or example of sheep
+n
+Is earth an attribute or example of sheep
+n
+So does that mean that sheep is viola and viola is musical and musical is viola and viola is musical and musical is viola and viola is musical?
+n
+
+Oops ok. So sheep is not viola and viola is not sheep
+So does that mean that sheep is soil and soil is earth and earth is soil and soil is earth and earth is soil and soil is earth?
+n
+
+Oops ok. So sheep is not soil and soil is not sheep
+So does that mean that sheep is musical and musical is viola and viola is musical and musical is viola and viola is musical and musical is viola?
+n
+
+Oops ok. So sheep is not musical and musical is not sheep
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of fast?
+plane car boat
+Is soil an attribute or example of fast
+n
+Is earth an attribute or example of fast
+n
+So does that mean that fast is plane and plane is fast and fast is plane and plane is fast and fast is plane and plane is fast?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of vehicle?
+driver passengers
+Is earth an attribute or example of vehicle
+n
+Is ground an attribute or example of vehicle
+n
+So does that mean that vehicle is plane and plane is fast and fast is plane and plane is fast and fast is plane and plane is fast?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of horse?
+fast animal
+Is earth an attribute or example of horse
+n
+Is piano an attribute or example of horse
+n
+So does that mean that horse is sheep and sheep is horse and horse is sheep and sheep is horse and horse is sheep and sheep is horse?
+n
+
+Oops ok. So horse is not sheep and sheep is not horse
+So does that mean that horse is fast and fast is plane and plane is fast and fast is plane and plane is fast and fast is plane?
+y
+ ...fascinating
+%%%%%%%%%
+What are the attributes or examples of green?
+
+Process finished with exit code -1

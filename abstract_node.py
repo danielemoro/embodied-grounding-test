@@ -12,10 +12,9 @@ class AbstractNode:
         self.word2vec = word2vec
         self.logreg = linear_model.LogisticRegression(C=1e5)
         self.name_vector = self.get_vector(name)
-        self.training_uptodate = True
+        self.training_uptodate = False
         self.pos_words = []
         self.neg_words = []
-
 
     def give_pos(self, ew):
         self.pos_words.append(ew)
@@ -89,14 +88,17 @@ class AbstractNode:
             x = np.concatenate((self.pos_words, self.neg_words))
             y = np.array(([1] * len(self.pos_words)) + [0] * len(self.neg_words))
         elif len(self.pos_words) > 0:
+            print("WARNING generating my own negative words for training")
             opp_words = self._helper_get_opposite_vectors(self.pos_words)
             x = np.concatenate((self.pos_words, opp_words))
             y = np.array(([1] * len(self.pos_words)) + [0] * len(opp_words))
         elif len(self.neg_words) > 0:
+            print("WARNING generating my own negative words for training")
             opp_words = self._helper_get_opposite_vectors(self.neg_words)
             x = np.concatenate((self.neg_words, opp_words))
             y = np.array(([1] * len(self.neg_words)) + [0] * len(opp_words))
         else:
+            print("WARNING cannot train")
             self.logreg = None
             self.training_uptodate = True
             return
@@ -106,10 +108,11 @@ class AbstractNode:
         self.training_uptodate = True
 
     def predict(self, ew):
-        if not self.training_uptodate:
+        if self.logreg is None or type(self.logreg) == "NoneType" or ew is None:
+            return 0.0
+        elif not self.training_uptodate:
             self.train()
-        if self.logreg is None:
-            return 1.0
+            return self.logreg.predict_proba(ew.reshape(1, -1))[0][1]
         else:
             return self.logreg.predict_proba(ew.reshape(1, -1))[0][1]
 

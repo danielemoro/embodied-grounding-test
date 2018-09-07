@@ -6,9 +6,9 @@ import pickle
 import os.path
 
 b = AbstractBrain()
-b, to_learn = pickle.load(open('bob3.p', "rb"))
+b, to_learn = pickle.load(open('cow.p', "rb"))
 
-print(b.classify_from_desc("rain"))
-print(b.classify_from_desc("person"))
-print(b.classify_from_desc("music"))
-print(b.classify_from_desc("rain"))
+print(b.classify_from_desc("cow"))
+print(b.classify_from_desc("sheep"))
+print(b.classify_from_desc("grass"))
+print(b.classify_from_desc("ground"))
