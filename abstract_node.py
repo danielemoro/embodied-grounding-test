@@ -39,7 +39,7 @@ class AbstractNode:
             self.data_attr = self.data_attr.append({'x': x, 'y': y * 1, 'word': word}, ignore_index=True)
             self.logreg_attr_trained = False
         elif relation == 'ex':
-            self.data_ex = self.data_ex.append({'x': x, 'y': y * 1, 'word': w}, ignore_index=True)
+            self.data_ex = self.data_ex.append({'x': x, 'y': y * 1, 'word': word}, ignore_index=True)
             self.logreg_ex_trained = False
         else:
             print("WARNING INCORRECT TYPE. IGNORING")
@@ -99,7 +99,7 @@ class AbstractNode:
             self.logreg_ex = self.logreg_ex.fit(x_ex, y_ex)
         self.logreg_ex_trained = True
 
-    def predict(self, relation, word, is_word="True"):
+    def predict(self, relation, word, is_word=True):
         if self.logreg_attr is None or self.logreg_ex is None or word is None:
             return 0.0
 
@@ -116,6 +116,9 @@ class AbstractNode:
             return self.logreg_ex.predict_proba(word.reshape(1, -1))[0][1]
         else:
             return 0.0
+
+    def predict_vectors(self, relation, vectors):
+        return np.percentile([self.predict(relation, v, is_word=False) for v in vectors], 75)
 
     def predict_desc(self, relation, desc):
         predictions = []
