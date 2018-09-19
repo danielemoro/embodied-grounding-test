@@ -2,7 +2,7 @@ from gensim.parsing.preprocessing import preprocess_string
 from gensim.parsing import preprocessing
 from sklearn import linear_model
 import numpy as np
-from statsmodels.tsa.tsatools import vec
+import pandas as pd
 
 
 class AbstractNode:
@@ -10,52 +10,45 @@ class AbstractNode:
     def __init__(self, word2vec, name):
         self.name = name
         self.word2vec = word2vec
-        self.logreg = linear_model.LogisticRegression(C=1e5)
+        self.logreg_attr = linear_model.LogisticRegression(C=1e5)
+        self.logreg_ex = linear_model.LogisticRegression(C=1e5)
+        self.logreg_attr_trained = False
+        self.logreg_ex_trained = False
         self.name_vector = self.get_vector(name)
-        self.training_uptodate = False
-        self.pos_words = []
-        self.neg_words = []
+        self.data_attr = pd.DataFrame(columns=['x', 'y', 'word'])
+        self.data_ex = pd.DataFrame(columns=['x', 'y', 'word'])
 
-    def give_pos(self, ew):
-        self.pos_words.append(ew)
-        self.training_uptodate = False
+    def add_data(self, relation, x, y, is_word=True):
+        """
+        Adds a pos/neg attribute or example of the node to the data
+        :param relation: The kind of relationship to add. Either 'attr' or 'ex'
+        :param x: The vector of the word to be added
+        :param y: 1 or 0 if the example is pos or neg
+        :param is_word: if x needs to be converted to a vector
+        """
+        # convert to vector
+        word = None
+        if is_word:
+            word = x
+            x = self.get_vector(x)
+            if x is None:
+                print("WARNING COULD NOT ADD", x)
+                return
 
-    def give_neg(self, ew):
-        self.neg_words.append(ew)
-        self.training_uptodate = False
+        if relation == 'attr':
+            self.data_attr = self.data_attr.append({'x': x, 'y': y * 1, 'word': word}, ignore_index=True)
+            self.logreg_attr_trained = False
+        elif relation == 'ex':
+            self.data_ex = self.data_ex.append({'x': x, 'y': y * 1, 'word': w}, ignore_index=True)
+            self.logreg_ex_trained = False
+        else:
+            print("WARNING INCORRECT TYPE. IGNORING")
 
-    def give_word(self, word, is_positive):
-        ew = self.get_vector(word)
-        if ew is not None:
-            if is_positive:
-                self.give_pos(ew)
-            else:
-                self.give_neg(ew)
-
-    def give_desc(self, desc, is_positive):
+    def add_desc(self, relation, desc, is_positive):
         if desc is None:
             return
-
-        desc = self._clean_text(desc)
-        if is_positive:
-            for w in desc.split(" "): self.give_word(w, True)
-        else:
-            for w in desc.split(" "): self.give_word(w, False)
-
-    def get_data_shape(self):
-        return np.array(self.pos_words).shape, np.array(self.neg_words).shape
-
-    def _helper_get_examples(self, ews):
-        words = []
-        for ew in ews:
-            words.append(self.word2vec.most_similar(ew, topn=1)[0][0])
-        return words
-
-    def get_examples(self, is_positive):
-        if is_positive:
-            return self._helper_get_examples(self.pos_words)
-        else:
-            return self._helper_get_examples(self.neg_words)
+        for word in self._clean_text(desc).split(" "):
+            self.add_data(relation, word, is_positive)
 
     def get_vector(self, word):
         if word in self.word2vec.vocab:
@@ -72,78 +65,81 @@ class AbstractNode:
         result = preprocess_string(unclean, filters=filters)
         return " ".join(result)
 
-    def _helper_get_opposite_vectors(self, vectors):
-        num = len(vectors)
+    def _helper_get_opposite_words(self, words):
+        num = len(words)
         num = max(num, 2)
-        same_words = self._helper_get_examples(vectors)
         # opp_words = self.word2vec.most_similar(words, topn=distance)[distance - num:]
-        opp_words = self.word2vec.most_similar(negative=same_words, topn=num*100)
+        opp_words = self.word2vec.most_similar(negative=words, topn=num*100)
         # print(opp_words)
-        return [self.get_vector(i[0]) for i in opp_words]
+        return [i[0] for i in opp_words[:num]]
 
     def train(self):
-        x = []
-        y = []
-        if len(self.pos_words) > 0 and len(self.neg_words) > 0:
-            x = np.concatenate((self.pos_words, self.neg_words))
-            y = np.array(([1] * len(self.pos_words)) + [0] * len(self.neg_words))
-        elif len(self.pos_words) > 0:
-            print("WARNING generating my own negative words for training")
-            opp_words = self._helper_get_opposite_vectors(self.pos_words)
-            x = np.concatenate((self.pos_words, opp_words))
-            y = np.array(([1] * len(self.pos_words)) + [0] * len(opp_words))
-        elif len(self.neg_words) > 0:
-            print("WARNING generating my own negative words for training")
-            opp_words = self._helper_get_opposite_vectors(self.neg_words)
-            x = np.concatenate((self.neg_words, opp_words))
-            y = np.array(([1] * len(self.neg_words)) + [0] * len(opp_words))
-        else:
-            print("WARNING cannot train")
-            self.logreg = None
-            self.training_uptodate = True
-            return
+        y_attr = np.array(self.data_attr['y'].values, dtype=bool)
+        y_ex = np.array(self.data_ex['y'].values, dtype=bool)
 
-        x = x.reshape(x.shape[0], x.shape[2])
-        self.logreg = self.logreg.fit(x, y)
-        self.training_uptodate = True
+        if len(y_attr) > 0:
+            if False not in y_attr:
+                print("WARNING GETTING OPP WORDS")
+                for x in self._helper_get_opposite_words(self.data_attr['word'].values):
+                    self.add_data('attr', x, False)
+                y_attr = np.array(self.data_attr['y'].values, dtype=bool)
 
-    def predict(self, ew):
-        if self.logreg is None or type(self.logreg) == "NoneType" or ew is None:
+            x_attr = np.concatenate(self.data_attr['x'].values)
+            self.logreg_attr = self.logreg_attr.fit(x_attr, y_attr)
+        self.logreg_attr_trained = True
+
+        if len(y_ex) > 0:
+            if False not in y_ex:
+                print("WARNING GETTING OPP WORDS")
+                for x in self._helper_get_opposite_words(self.data_ex['word'].values):
+                    self.add_data('ex', x, False)
+                y_ex = np.array(self.data_ex['y'].values, dtype=bool)
+
+            x_ex = np.concatenate(self.data_ex['x'].values)
+            self.logreg_ex = self.logreg_ex.fit(x_ex, y_ex)
+        self.logreg_ex_trained = True
+
+    def predict(self, relation, word, is_word="True"):
+        if self.logreg_attr is None or self.logreg_ex is None or word is None:
             return 0.0
-        elif not self.training_uptodate:
+
+        if is_word:
+            word = self.get_vector(word)
+
+        if not self.logreg_attr_trained or not self.logreg_ex_trained:
+            print("TRAINING")
             self.train()
-            return self.logreg.predict_proba(ew.reshape(1, -1))[0][1]
+
+        if relation == 'attr' and len(self.data_attr.index) > 0:
+            return self.logreg_attr.predict_proba(word.reshape(1, -1))[0][1]
+        elif relation == 'ex' and len(self.data_ex.index) > 0:
+            return self.logreg_ex.predict_proba(word.reshape(1, -1))[0][1]
         else:
-            return self.logreg.predict_proba(ew.reshape(1, -1))[0][1]
+            return 0.0
 
-    def predict_vectors(self, vectors):
-        predictions = []
-        for v in vectors:
-            predictions.append(self.predict(v))
-        return np.percentile(np.array(predictions), 75)
-
-    def predict_word(self, word):
-        ew = self.get_vector(word)
-        return self.predict(ew)
-
-    def predict_desc(self, desc):
+    def predict_desc(self, relation, desc):
         predictions = []
         desc = self._clean_text(desc)
-        for w in desc.split(' '):
-            predictions.append(self.predict_word(w))
+        for word in desc.split(' '):
+            predictions.append(self.predict(relation, word))
             # print(w, self.predict_word(w))
         return np.percentile(np.array(predictions), 90)
+
 
 if __name__ == "__main__":
     from gensim.models import KeyedVectors
     model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True, limit=200000)
     print("START")
     a = AbstractNode(model, 'happy')
-    a.give_desc("delighted, pleased, or glad, as over a particular thing:", True)
-    a.give_desc("feeling or showing sorrow; unhappy.", False)
-    print(a.predict_desc('Life is like a roller coaster, live it, be happy, enjoy life. '))
+    a.add_desc('attr', "delighted, pleased, or glad, as over a particular thing:", True)
+    # a.add_desc('attr', "feeling or showing sorrow; unhappy.", False)
+    print("ATTRIBUTES\n", a.data_attr)
+    print("EXAMPLES\n", a.data_ex)
+    print(a.predict_desc('attr', 'Life is like a roller coaster, live it, be happy, enjoy life. '))
+    print("ATTRIBUTES\n", a.data_attr[['y', 'word']].head(10))
+    print("EXAMPLES\n", a.data_ex[['y', 'word']].head(10))
     words = ['sad', 'happy', 'cat', 'feeling']
     for w in words:
-        print(w, a.predict_word(w))
-    print(a.ping(a.get_vector('happy')))
+        print(w, 'is attr of', a.name, ": ", a.predict('attr', w))
+        print(w, 'is ex of', a.name, ": ", a.predict('ex', w))
 
